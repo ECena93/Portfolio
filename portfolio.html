@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luis E. Cena — Aerospace Engineer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a1628;
+    --navy2: #112240;
+    --accent: #4fc3f7;
+    --accent2: #81d4fa;
+    --text: #ccd6f6;
+    --muted: #8892b0;
+    --surface: #172a45;
+    --surface2: #1e3a5f;
+    --border: rgba(79,195,247,0.18);
+    --white: #e6f1ff;
+    --green: #64ffda;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,22,40,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 64px;
+  }
+  .nav-logo { font-size: 1.1rem; font-weight: 600; color: var(--accent); letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.5px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 80px 10vw 60px;
+  }
+  .hero-inner { max-width: 680px; }
+  .hero-tag { color: var(--accent); font-size: 0.95rem; letter-spacing: 2px; margin-bottom: 1.2rem; text-transform: uppercase; }
+  .hero-name { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 0.4rem; }
+  .hero-title { font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--muted); margin-bottom: 1.8rem; font-weight: 400; }
+  .hero-desc { color: var(--text); font-size: 1rem; max-width: 520px; margin-bottom: 2.2rem; line-height: 1.8; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 0.7rem 1.6rem; border-radius: 4px;
+    font-size: 0.9rem; text-decoration: none; font-weight: 500; transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--accent); color: var(--navy); }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-outline { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
+  .btn-outline:hover { background: rgba(79,195,247,0.08); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-val { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 10vw; }
+  section:nth-child(even) { background: var(--navy2); }
+  .section-label { color: var(--accent); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.6rem; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--white); margin-bottom: 3rem; }
+  .section-title span { color: var(--accent); }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem;
+    display: flex; flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(79,195,247,0.1);
+  }
+
+  .project-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: rgba(79,195,247,0.1);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-tools {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem;
+  }
+  .tool-tag {
+    font-size: 0.72rem; padding: 2px 9px; border-radius: 20px;
+    background: rgba(79,195,247,0.1); color: var(--accent);
+    border: 1px solid rgba(79,195,247,0.25); letter-spacing: 0.3px;
+  }
+
+  .project-title { font-size: 1.1rem; font-weight: 600; color: var(--white); margin-bottom: 0.7rem; }
+  .project-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.7; flex: 1; }
+
+  .project-highlights { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .project-highlights li {
+    font-size: 0.85rem; color: var(--text); padding: 0.25rem 0 0.25rem 1rem;
+    position: relative; list-style: none;
+  }
+  .project-highlights li::before {
+    content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.35rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; }
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+  }
+  .skill-group-title {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--accent); margin-bottom: 1rem; font-weight: 600;
+  }
+  .skill-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;
+  }
+  .skill-item:last-child { border-bottom: none; }
+  .skill-name { color: var(--text); }
+  .skill-bar { width: 90px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .skill-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-text p { color: var(--muted); margin-bottom: 1.1rem; font-size: 0.97rem; line-height: 1.8; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .edu-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .edu-school { font-size: 1rem; font-weight: 600; color: var(--white); }
+  .edu-degree { font-size: 0.88rem; color: var(--accent); margin: 0.3rem 0; }
+  .edu-date { font-size: 0.8rem; color: var(--muted); }
+  .edu-courses { font-size: 0.8rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; }
+  .contact-subtitle { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; font-size: 0.97rem; }
+  .contact-links { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--text); text-decoration: none; font-size: 0.92rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.7rem 1.4rem;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1.2rem; }
+    .nav-links { gap: 1rem; }
+    section { padding: 4rem 5vw; }
+    #hero { padding: 80px 5vw 60px; }
+    .hero-stats { gap: 1.5rem; }
+    .about-grid { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LEC</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">Aerospace Engineer</p>
+    <h1 class="hero-name">Luis E. Cena</h1>
+    <p class="hero-title">Aerothermodynamics &amp; Propulsion Systems</p>
+    <p class="hero-desc">
+      B.S. Aerospace Engineering — UC San Diego. Specialized in aerothermodynamics with hands-on experience
+      in CFD simulation, experimental aerodynamics, propulsion analysis, and autonomous vehicle design.
+      Bilingual. Based in National City, CA.
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-outline" href="#contact">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-val">4</div>
+        <div class="stat-label">Engineering Projects</div>
+      </div>
+      <div>
+        <div class="stat-val">3</div>
+        <div class="stat-label">Simulation Tools</div>
+      </div>
+      <div>
+        <div class="stat-val">2</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Engineering Work</p>
+  <h2 class="section-title">Featured <span>Projects</span></h2>
+
+  <div class="projects-grid">
+
+    <!-- Project 1: CFD Rocket -->
+    <div class="project-card">
+      <div class="project-icon">🚀</div>
+      <div class="project-tools">
+        <span class="tool-tag">Ansys Fluent</span>
+        <span class="tool-tag">CFD</span>
+        <span class="tool-tag">Propulsion</span>
+        <span class="tool-tag">Thermal Analysis</span>
+      </div>
+      <h3 class="project-title">Vortex-Cooled Rocket Engine CFD Simulation</h3>
+      <p class="project-desc">
+        Modeled an innovative vortex cooling concept for liquid rocket engines using Ansys Fluent.
+        Cryogenic propellants are injected tangentially to generate a swirling vortex flow that forms
+        a protective thermal film along the nozzle wall — isolating the chamber liner from extreme
+        combustion temperatures without active cooling hardware.
+      </p>
+      <ul class="project-highlights">
+        <li>Validated vortex stability and confirmed chamber pressure distributions</li>
+        <li>Verified thermal insulation effectiveness of the cryogenic film layer</li>
+        <li>Demonstrated design feasibility as a passive cooling strategy for high-performance engines</li>
+        <li>Modeled complex multi-phase fluid dynamics and heat transfer at combustion conditions</li>
+      </ul>
+    </div>
+
+    <!-- Project 2: Wind Tunnel -->
+    <div class="project-card">
+      <div class="project-icon">💨</div>
+      <div class="project-tools">
+        <span class="tool-tag">Wind Tunnel</span>
+        <span class="tool-tag">Data Acquisition</span>
+        <span class="tool-tag">MATLAB</span>
+        <span class="tool-tag">Experimental Aero</span>
+      </div>
+      <h3 class="project-title">Wind Tunnel Aerodynamic Testing</h3>
+      <p class="project-desc">
+        Conducted experimental lift and drag measurements on a wing section across multiple angles of
+        attack in a subsonic wind tunnel. Operated force balance instrumentation, extracted raw sensor
+        data, and post-processed results to derive aerodynamic coefficient curves.
+      </p>
+      <ul class="project-highlights">
+        <li>Measured C<sub>L</sub> and C<sub>D</sub> across full angle-of-attack sweep including stall</li>
+        <li>Operated force balance sensors and data acquisition hardware</li>
+        <li>Compared experimental results to theoretical predictions — identified and quantified measurement uncertainty</li>
+        <li>Post-processed raw instrument data using MATLAB</li>
+      </ul>
+    </div>
+
+    <!-- Project 3: Autorotation Lander -->
+    <div class="project-card">
+      <div class="project-icon">🛸</div>
+      <div class="project-tools">
+        <span class="tool-tag">Arduino / C++</span>
+        <span class="tool-tag">Systems Design</span>
+        <span class="tool-tag">Rotary-Wing</span>
+        <span class="tool-tag">Embedded Systems</span>
+      </div>
+      <h3 class="project-title">Autorotation Planetary Lander</h3>
+      <p class="project-desc">
+        Designed, built, and tested a rotary-wing lander concept for planetary bodies with thin
+        atmospheres. The vehicle uses passive blade pitch geometry to maintain a stable rotation rate
+        and constant descent velocity — no active power source required for the rotor. An onboard
+        camera captures imagery throughout descent.
+      </p>
+      <ul class="project-highlights">
+        <li>Achieved stable, consistent rotation and descent rate under mass and size constraints</li>
+        <li>Integrated camera module for descent imagery; programmed control logic in C++ via Arduino</li>
+        <li>Led systems integration across mechanical, electrical, and software subsystems</li>
+        <li>Delivered formal technical presentations with design trade-off analysis to faculty panel</li>
+      </ul>
+    </div>
+
+    <!-- Project 4: Aero Loads -->
+    <div class="project-card">
+      <div class="project-icon">📐</div>
+      <div class="project-tools">
+        <span class="tool-tag">MATLAB</span>
+        <span class="tool-tag">Structural Analysis</span>
+        <span class="tool-tag">Aerodynamics</span>
+      </div>
+      <h3 class="project-title">Aerodynamic Loads Calculator</h3>
+      <p class="project-desc">
+        Developed a computational tool in MATLAB to evaluate aerodynamic loads and performance metrics
+        for arbitrary airfoil geometries. Designed to support structural sizing decisions during
+        early-stage conceptual design where rapid iteration is critical.
+      </p>
+      <ul class="project-highlights">
+        <li>Computes lift, drag, and moment coefficients as functions of geometry and flow conditions</li>
+        <li>Generates performance metrics to inform structural design optimization</li>
+        <li>Enables rapid parametric sweeps across design variables for conceptual trade studies</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Capabilities</p>
+  <h2 class="section-title">Technical <span>Skills</span></h2>
+
+  <div class="skills-grid">
+
+    <div class="skill-group">
+      <div class="skill-group-title">Simulation &amp; CAD</div>
+      <div class="skill-item"><span class="skill-name">Ansys Fluent (CFD)</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">SolidWorks</span><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">FEA / Structural</span><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div></div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Programming</div>
+      <div class="skill-item"><span class="skill-name">MATLAB</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">C++ / Arduino</span><div class="skill-bar"><div class="skill-fill" style="width:52%"></div></div></div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Engineering Disciplines</div>
+      <div class="skill-item"><span class="skill-name">Propulsion Systems</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Thermodynamics</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Aerodynamics</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Structural Mechanics</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Control Systems</span><div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div></div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Lab &amp; Hardware</div>
+      <div class="skill-item"><span class="skill-name">Wind Tunnel Testing</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Data Acquisition</span><div class="skill-bar"><div class="skill-fill" style="width:74%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Vibration Analysis</span><div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Embedded Systems</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">Background</p>
+  <h2 class="section-title">About <span>Me</span></h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm an aerospace engineer based in National City, CA, with a B.S. from UC San Diego
+        specializing in aerothermodynamics. My technical foundation spans CFD simulation,
+        propulsion systems, experimental aerodynamics, and embedded systems design.
+      </p>
+      <p>
+        My most technically involved project was a <strong>CFD simulation of a vortex-cooled rocket engine</strong>
+        — an innovative approach where propellants are injected tangentially to create a
+        swirling flow that keeps a cryogenic film on the nozzle wall, passively protecting it
+        from combustion temperatures. The simulation validated both vortex stability and thermal performance.
+      </p>
+      <p>
+        I also built a physical <strong>autorotation planetary lander</strong> — a rotary-wing vehicle
+        that descends at a stable rate with no active rotor power, integrated with a camera system and
+        Arduino-based control logic, all within strict mass and volume constraints.
+      </p>
+      <p>
+        I'm fluent in both English and Spanish and am actively seeking an entry-level or apprentice
+        engineering role where I can contribute to real hardware and grow my applied experience.
+      </p>
+    </div>
+    <div>
+      <div class="edu-card">
+        <div class="edu-school">University of California, San Diego</div>
+        <div class="edu-degree">B.S. Aerospace Engineering — Aerothermodynamics</div>
+        <div class="edu-date">Graduated April 2024</div>
+        <div class="edu-courses">
+          Relevant coursework: Computational Fluid Dynamics · Heat Transfer · Propulsion Systems ·
+          Aerodynamics · Experimental Techniques · Aerospace Materials · Structural Mechanics ·
+          Thermodynamics · Fluid Mechanics · Control Systems · Space Mission Analysis
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">Languages</div>
+        <div class="edu-degree">English — Fluent &nbsp;|&nbsp; Spanish — Fluent</div>
+        <div class="edu-date">Native bilingual speaker</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2 class="section-title">Let's <span>Connect</span></h2>
+  <p class="contact-subtitle">
+    I'm actively looking for entry-level or apprentice positions in aerospace, propulsion,
+    MRO, or defense engineering. I'd love to hear from you.
+  </p>
+  <div class="contact-links">
+    <a class="contact-link" href="mailto:luiscena2015@gmail.com">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      luiscena2015@gmail.com
+    </a>
+    <a class="contact-link" href="https://linkedin.com/in/luiscena" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      linkedin.com/in/luiscena
+    </a>
+    <a class="contact-link" href="tel:+526642933263">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +52 (664) 293-3263
+    </a>
+    <a class="contact-link" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Download Resume
+    </a>
+  </div>
+</section>
+
+<footer>
+  Built by Luis E. Cena &nbsp;·&nbsp; Aerospace Engineer &nbsp;·&nbsp; National City, CA
+</footer>
+
+</body>
+</html>
